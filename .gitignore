@@ -1,0 +1,7 @@
+
+/projeto_BenchmarkDotNet/bin/Debug/net8.0/it
+/projeto_BenchmarkDotNet/bin/Debug/net8.0
+*.dll
+*.cache
+*.pdb
+*.so
