@@ -10,36 +10,61 @@ namespace projeto_BenchmarkDotNet
     {
         DataContext context = new DataContext();
 
-        [Benchmark]
-        public void buscaDapper()
-        {
-            using (IDbConnection db = new SqlConnection("Server=localhost,1433;Database=teste-praticodb;User Id=sa;Password=Numsey#2021;TrustServerCertificate=True"))
-            {
-                var query = @"SELECT Id, Cidades, Sigla from Cidades WHERE Cidades = @Cidades";
-                var parametros = new { Cidades = "Santo Andre" };
+        // [Benchmark]
+        // public void buscaDapper()
+        // {
+        //     using (IDbConnection db = new SqlConnection("Server=localhost,1433;Database=teste-praticodb;User Id=sa;Password=Numsey#2021;TrustServerCertificate=True"))
+        //     {
+        //         var query = @"SELECT Id, Cidades, Sigla from Cidades WHERE Cidades = @Cidades";
+        //         var parametros = new { Cidades = "Santo Andre" };
 
-                //var listaAsync = await conection.QueryAsync<Cidade>(query);
-                db.Query<Cidade>(query, parametros).ToList();
+        //         //var listaAsync = await conection.QueryAsync<Cidade>(query);
+        //         db.Query<Cidade>(query, parametros).ToList();
+
+        //     }
+        // }
+
+        // [Benchmark]
+        // public async Task buscaEntity()
+        // {
+        //     await context.Cidades.Where(p => p.Cidades == "Santo Andre").ToListAsync();
+        // }
+
+        // [Benchmark]
+        // public void buscaNormal()
+        // {
+        //     context.Cidades.Where(p => p.Cidades == "Santo Andre").ToList();
+        // }
+
+        // [Benchmark]
+        // public void buscaLinq()
+        // {
+        //     var endereco = from e in context.Cidades where e.Cidades == "Santo Andre" select e;
+        // }
+
+        // [Benchmark]
+        // public void listaNormal()
+        // {
+        //     context.Cidades.ToList();
+        // }
+
+        // [Benchmark]
+        // public async Task lista()
+        // {
+        //     await context.Cidades.ToListAsync();
+        // }
+
+        // Rodar o projeto dotnet run -c Release
+        [Benchmark]
+        public void listaDapper()
+        {
+            using (IDbConnection db = new SqlConnection("Server=localhost,1433;Database=emprestimodb;User Id=sa;Password=Numsey#2021;TrustServerCertificate=True"))
+            {
+                string sqlQuery = @"SELECT Cidades, Sigla from [teste-praticodb].[dbo].[Cidades]";
+                IEnumerable<Cidade> users = db.Query<Cidade>(sqlQuery).ToList();
 
             }
-        }
 
-        [Benchmark]
-        public async Task buscaEntity()
-        {
-            await context.Cidades.Where(p => p.Cidades == "Santo Andre").ToListAsync();
-        }
-
-        [Benchmark]
-        public void buscaNormal()
-        {
-            context.Cidades.Where(p => p.Cidades == "Santo Andre").ToList();
-        }
-
-        [Benchmark]
-        public void buscaLinq()
-        {
-            var endereco = from e in context.Cidades where e.Cidades == "Santo Andre" select e;
         }
     }
 }
